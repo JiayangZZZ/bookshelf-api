@@ -48,7 +48,7 @@ function isEmpty(obj) {
 }
 
 app.configure(function() {
-  app.set('port', process.env.PORT || 3800);
+  app.set('port', process.env.PORT || 3700);
   app.use(express.logger('dev'));
   app.use(express.static(__dirname));
   app.use(express.query());
