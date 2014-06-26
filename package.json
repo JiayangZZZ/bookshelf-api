@@ -1,0 +1,22 @@
+{
+  "name": "bookshelf-api",
+  "version": "0.0.0",
+  "description": "bookshelf-api =============",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/JiayangZZZ/bookshelf-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JiayangZZZ/bookshelf-api/issues"
+  },
+  "homepage": "https://github.com/JiayangZZZ/bookshelf-api",
+  "dependencies": {
+    "express": "~3.4.8"
+  }
+}
