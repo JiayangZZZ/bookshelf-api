@@ -56,6 +56,7 @@ app.configure(function() {
   app.use(app.router);
 });
 
+//get list of books
 app.get('/books', function(req, res) {
   var q = bookTable
     .select('*')
@@ -67,6 +68,35 @@ app.get('/books', function(req, res) {
     }
   })
 })
+
+//get book info by id
+app.get('/book/:id', function(req, res) {
+  var q = bookTable
+    .select('*')
+    .from(bookTable)
+    .where(bookTable.id.equals(req.param('id')))
+    .toQuery();
+  db.query(q.text, q.values, function(err, result) {
+    if(!err) {
+      return res.json(result);
+    }
+  })
+})
+
+//get user's info
+app.get('/user/:username', function(req, res) {
+  var q = userTable
+    .select('*')
+    .from(userTable)
+    .where(userTable.name.equals(req.param('username')))
+    .toQuery();
+  db.query(q.text, q.values, function(err, result) {
+    if(!err) {
+      return res.json(result);
+    }
+  })
+})
+
 
 requirejs.config({
   baseUrl : __dirname,
