@@ -18,18 +18,18 @@ GLOBAL.db = mysql.createConnection({
 });
 
 GLOBAL.userTable = sql.define({
-  name: 'users',
-  columns: ['id', 'name', 'pw', 'sex', 'age', 'star', 'hobbit', 'intro', 'connection', 'bloodtype']
+  name: 'user',
+  columns: ['id', 'name', 'pw', 'sex', 'bloodtype', 'hobit', 'star', 'users_intro', 'contect', 'created_time', 'age']
 });
 
 GLOBAL.bookTable = sql.define({
   name: 'book',
-  columns: ['id','name','cover', 'intro', 'style', 'created_time', 'creater_id']
+  columns: ['id','name','cover', 'style', 'introduction', 'created_time', 'creater_id']
 });
 
 GLOBAL.teamTable = sql.define({
-  name: 'team',
-  columns: ['id', 'title', 'description', 'user_id']
+  name: 'discuss_team',
+  columns: ['id', 'title', 'discription', 'user_id']
 });
 
 db.connect();
@@ -61,6 +61,7 @@ app.get('/books', function(req, res) {
   var q = bookTable
     .select('*')
     .from(bookTable)
+    .limit(5)
     .toQuery();
   db.query(q.text, q.values, function(err, result) {
     if(!err) {
@@ -75,6 +76,34 @@ app.get('/book/:id', function(req, res) {
     .select('*')
     .from(bookTable)
     .where(bookTable.id.equals(req.param('id')))
+    .toQuery();
+  db.query(q.text, q.values, function(err, result) {
+    if(!err) {
+      return res.json(result);
+    }
+  })
+})
+
+//get all teams
+app.get('/teams', function(req, res) {
+  var q = teamTable
+    .select('*')
+    .from(teamTable)
+    .limit('10')
+    .toQuery();
+  db.query(q.text, q.values, function(err, result) {
+    if(!err) {
+      return res.json(result);
+    }
+  })
+})
+
+//get a team by id
+app.get('/team/:id', function(req, res) {
+  var q = teamTable
+    .select('*')
+    .from(teamTable)
+    .where(teamTable.id.equals(req.param('id')))
     .toQuery();
   db.query(q.text, q.values, function(err, result) {
     if(!err) {
@@ -102,7 +131,6 @@ requirejs.config({
   baseUrl : __dirname,
   nodeRequire : require
 });
-
 
 
 
