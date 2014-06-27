@@ -98,7 +98,7 @@ app.get('/teams', function(req, res) {
   })
 })
 
-//get a team by id
+//** get messages by teamId
 app.get('/team/:id', function(req, res) {
   var q = teamTable
     .select('*')
@@ -111,6 +111,8 @@ app.get('/team/:id', function(req, res) {
     }
   })
 })
+
+//get
 
 //get user's info
 app.get('/user/:username', function(req, res) {
