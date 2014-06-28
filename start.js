@@ -18,7 +18,7 @@ GLOBAL.db = mysql.createConnection({
 });
 
 GLOBAL.userTable = sql.define({
-  name: 'user',
+  name: 'users',
   columns: ['id', 'name', 'pw', 'sex', 'bloodtype', 'hobit', 'star', 'users_intro', 'contect', 'created_time', 'age']
 });
 
@@ -30,6 +30,16 @@ GLOBAL.bookTable = sql.define({
 GLOBAL.teamTable = sql.define({
   name: 'discuss_team',
   columns: ['id', 'title', 'discription', 'user_id']
+});
+
+GLOBAL.commentTable = sql.define({
+  name: 'comment',
+  columns: ['id', 'created_time', 'content', 'heart_count', 'book_id1', 'sender_id']
+});
+
+GLOBAL.readTable = sql.define({
+  name: 'have_read',
+  columns: ['created_tiem', 'user_id', 'book_id']
 });
 
 db.connect();
@@ -61,7 +71,7 @@ app.get('/books', function(req, res) {
   var q = bookTable
     .select('*')
     .from(bookTable)
-    .limit(5)
+    .limit(30)
     .toQuery();
   db.query(q.text, q.values, function(err, result) {
     if(!err) {
@@ -70,7 +80,7 @@ app.get('/books', function(req, res) {
   })
 })
 
-//get book info by id
+// //get book info by id
 app.get('/book/:id', function(req, res) {
   var q = bookTable
     .select('*')
@@ -89,7 +99,33 @@ app.get('/teams', function(req, res) {
   var q = teamTable
     .select('*')
     .from(teamTable)
-    .limit('10')
+    .limit('30')
+    .toQuery();
+  db.query(q.text, q.values, function(err, result) {
+    if(!err) {
+      return res.json(result);
+    }
+  })
+})
+
+app.get('/read', function(req, res) {
+  var q = readTable
+    .select('*')
+    .from(readTable)
+    .limit('30')
+    .toQuery();
+  db.query(q.text, q.values, function(err, result) {
+    if(!err) {
+      return res.json(result);
+    }
+  })
+})
+
+app.get('/comment', function(req, res) {
+  var q = commentTable
+    .select('*')
+    .from(commentTable)
+    .limit('30')
     .toQuery();
   db.query(q.text, q.values, function(err, result) {
     if(!err) {
@@ -115,16 +151,18 @@ app.get('/team/:id', function(req, res) {
 //get
 
 //get user's info
-app.get('/user/:username', function(req, res) {
+app.get('/setting', function(req, res) {
   var q = userTable
     .select('*')
     .from(userTable)
-    .where(userTable.name.equals(req.param('username')))
+    .where(userTable.id.equals(10))
     .toQuery();
   db.query(q.text, q.values, function(err, result) {
     if(!err) {
       return res.json(result);
     }
+    // else
+    //   return res.send("no");
   })
 })
 
